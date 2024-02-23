@@ -1,0 +1,15 @@
+type: resource
+name: Book
+properties:
+  name:
+    type: STRING
+    unique: true
+    required: true
+  description:
+    type: STRING
+  author:
+    type: REFERENCE
+    reference:
+      resource:
+        name: Author
+    required: true

@@ -1,0 +1,9 @@
+type: resource
+name: Book
+properties:
+  title:
+    type: STRING
+    unique: true
+    required: true
+  description:
+    type: STRING

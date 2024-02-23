@@ -1,0 +1,75 @@
+---
+sidebar_position: 4
+---
+
+import {SwaggerApi} from '../../src/components/open-api/swagger-api'
+import MetaJson from '../../src/meta.json'
+
+# Record
+
+## Overview
+
+**Record API** is a generic API for working with records.  
+For each resource, **Record API** is working dynamically with the resource.  
+If you create a **book resource**, you will have **book api**. Which will behave exactly like book API if you create it by yourself in any language. So **Record API** is for this purpose, it has set of **generic features** to cover record operations for all resources.
+
+## Record operations
+
+<SwaggerApi
+    spec={MetaJson}
+    withoutModels={true}
+    override={spec => {
+        return {
+            ...spec,
+            tags: undefined
+        }
+    }}
+    filterOperations={(operation) => {
+        return operation.operationId === 'getRecord' || operation.operationId === 'createRecord' || operation.operationId === 'updateRecord' || operation.operationId === 'applyRecord' || operation.operationId === 'deleteRecord' || operation.operationId === 'searchRecord' || operation.operationId === 'actionRecord';
+    }}
+    withoutHeader={true}/>
+
+**Note:** all API endpoints are working with **\{namespace}-\{resource}** path.
+For default namespace resources, namespace parameter can be omitted.
+For example: **books** resource can be accessed by both **/default-book** path and **/book** path.
+For simplicity it is best to use **/book** path.
+
+### Record model
+
+For each resource, **Record API** is working dynamically with the resource. And its payload structure is shaped according to the resource model.
+
+#### For example
+
+Assume that we have create Book resource with following fields: \[name, description\]
+
+```yaml
+type: resource
+name: Book
+properties:
+  name:
+    type: STRING
+    unique: true
+    required: true
+  description:
+    type: STRING
+```
+
+<SwaggerApi
+    spec={MetaJson}
+    withoutModels={true}
+    override={spec => {
+        return {
+            ...spec,
+            tags: undefined
+        }
+    }}
+    filterOperations={(operation) => {
+        return operation.operationId && operation.operationId.endsWith('Book')
+    }}
+    withoutHeader={true}/>
+
+### Query & Filtering
+
+For filtering, **Record API** is using **JSON Schema** standard.
+You can find more information about JSON Schema from [here](https://json-schema.org/understanding-json-schema/reference/index.html).
+

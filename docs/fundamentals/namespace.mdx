@@ -1,0 +1,25 @@
+---
+sidebar_position: 4
+---
+
+import {SwaggerApi} from '../../src/components/open-api/swagger-api'
+import InternalJson from '../../src/internal.json'
+
+# Namespace
+
+Namespace is a way to group resources.
+By default, all resources are in **default** namespace.
+
+<SwaggerApi
+    spec={InternalJson}
+    withoutModels={true}
+    override={spec => {
+        return {
+            ...spec,
+            tags: undefined
+        }
+    }}
+    filterOperations={(operation) => {
+        return operation.operationId && operation.operationId.endsWith('Namespace')
+    }}
+    withoutHeader={true}/>

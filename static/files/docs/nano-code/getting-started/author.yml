@@ -1,0 +1,13 @@
+type: resource
+name: Book
+properties:
+  name:
+    type: STRING
+    unique: true
+    required: true
+  description:
+    type: STRING
+  book_count:
+    type: INT32
+    required: true
+    defaultValue: 0

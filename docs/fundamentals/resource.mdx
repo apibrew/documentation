@@ -1,0 +1,33 @@
+---
+sidebar_position: 3
+---
+import {SwaggerApi} from '../../src/components/open-api/swagger-api'
+import MetaJson from '../../src/meta.json'
+
+# Resource
+
+## Overview
+
+Resources are the main part of the API.
+In **Api Brew** everything is a **resource**. Resources are like a tables in the database. But it is focused on the API.
+Every resource corresponds to an API. When you create a resource, you create an API (set of endpoints) for it.
+
+## Resource operations
+
+<SwaggerApi
+    spec={MetaJson}
+    withoutModels={true}
+    override={spec => {
+        return {
+            ...spec,
+            tags: undefined
+        }
+    }}
+    filterOperations={(operation) => {
+        return operation.operationId === 'getResource' || operation.operationId === 'getResources' || operation.operationId === 'createResource' || operation.operationId === 'updateResource' || operation.operationId === 'deleteResource' || operation.operationId === 'getResourceByName';
+    }}
+    withoutHeader={true}/>
+
+#### Relations of Resource with other things
+
+![](/files/docs/fundamentals/resource/resource-relations.png)

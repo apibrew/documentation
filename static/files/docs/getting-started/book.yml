@@ -1,0 +1,19 @@
+type: resource
+name: Book
+title: Book
+description: A book
+types:
+  - name: test1
+    properties:
+      testData:
+        type: STRING
+properties:
+  title:
+    type: STRING
+    unique: true
+    required: true
+  description:
+    type: STRING
+  testProperty2:
+    type: STRUCT
+    typeRef: test1

@@ -1,0 +1,59 @@
+---
+sidebar_position: 2
+---
+import {SwaggerApi} from '../../src/components/open-api/swagger-api'
+import MetaJson from '../../src/meta.json'
+
+# Authentication
+
+## Overview
+
+Authentication is the process of verifying the identity of a user.
+
+We recommend to use [Authorization](https://apibrew.io/docs/fundamentals/authorization) to protect your API
+
+You can use this endpoint for both as access token and refresh token.  
+You can consider access token as a short lived token and refresh token as a long lived token.
+
+**term** - term of the token. Possible values:
+
+- **VERY\_SHORT** - 1 minute
+- **SHORT** - 20 minutes
+- **MIDDLE** - 2 days
+- **LONG** - 60 days
+- **VERY\_LONG** - 2 years
+
+## Authentication operations
+
+<SwaggerApi
+    spec={MetaJson}
+    withoutModels={true}
+    override={spec => {
+        return {
+            ...spec,
+            tags: undefined
+        }
+    }}
+    filterOperations={(operation) => {
+        return operation.operationId === 'getAuthenticationToken' || operation.operationId === 'refreshAuthenticationToken';
+    }}
+withoutHeader={true}/>
+
+**NOTE:** You can use this endpoint for both as access token and refresh token.
+
+#### Usage
+
+After obtaining access token you can use it to access protected endpoints.
+For this you need to add **Authorization** header with bearer prefix to your request.
+
+**Example:**
+
+```http
+GET http://localhost:9009/books
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+```
+
+### Refresh Token
+
+Refresh token endpoint is used to refresh access token.
+You can use this endpoint for both as access token and refresh token.
