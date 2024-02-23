@@ -92,11 +92,11 @@ const sidebars: SidebarsConfig = {
         //     label: 'Cloud',
         //     items: ['nano/mail'],
         // },
-        // {
-        //     type: 'category',
-        //     label: 'Internals',
-        //     items: ['nano/mail'],
-        // },
+        {
+            type: 'category',
+            label: 'Internals',
+            items: ['internals/index'],
+        },
     ],
 };
 
