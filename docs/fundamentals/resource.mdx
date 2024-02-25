@@ -1,6 +1,4 @@
----
-sidebar_position: 3
----
+import {ResourceDefinition} from "../../src/components/ResourceDefinition";
 import {SwaggerApi} from '../../src/components/open-api/swagger-api'
 import MetaJson from '../../src/meta.json'
 
@@ -28,6 +26,18 @@ Every resource corresponds to an API. When you create a resource, you create an 
     }}
     withoutHeader={true}/>
 
-#### Relations of Resource with other things
+## Resource definition
+<ResourceDefinition namespace='system' resourceName='Resource'/>
 
-![](/files/docs/fundamentals/resource/resource-relations.png)
+## Resource example
+```yaml
+name: Book
+description: The book resource
+title: Book
+namespace:
+  name: library
+virtual: false
+
+```
+
+Properties marked with * are required.

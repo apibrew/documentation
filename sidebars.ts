@@ -56,7 +56,8 @@ const sidebars: SidebarsConfig = {
                 'fundamentals/authorization',
                 // 'fundamentals/extension',
                 // 'fundamentals/annotations',
-                // 'fundamentals/miscellaneous',
+                'fundamentals/miscellaneous',
+                'fundamentals/schema',
             ],
         },
         {
@@ -67,9 +68,7 @@ const sidebars: SidebarsConfig = {
                 'nano/resource',
                 'nano/lambda',
                 'nano/http',
-                // 'nano/mail',
-                // 'nano/global',
-                // 'nano/low-level',
+                'nano/low-level',
             ],
         },
         {

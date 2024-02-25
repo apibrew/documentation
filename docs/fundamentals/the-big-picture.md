@@ -8,39 +8,76 @@ sidebar_position: 1
 
 This is high level overview of Api brew.
 
-In Api brew, everything is a resource.  
-A resource represents:
+![](/files/fundamentals/apibrew-quick.png)
 
-1. A **data model** (e.g. a user, a post, a comment, etc.)
-2. A **table** in the database
-3. A **RESTful API endpoint**
+**ApiBrew** is a platform. You have 3 way to interact with it.
 
-![](/files/docs/fundamentals/the-big-picture/resource-namespace-diagram.png)
+1. **apbr CLI** - Command line interface
+2. **Studio** - Web based UI
+3. **API** - RESTful API
 
-A namespace is a collection for grouping resources.
+The purpose of ApiBrew is to create well documented APIs for you.
 
-You can create/update/delete resources.  
-By updating a **resource** you can update **the data model**, the **database table** and the **RESTful API endpoint**.
+In ApiBrew, there are 2 main elements.
 
-## How it works?
+1. **Resource** - Api / Data model / Table
+2. **Record** - Data / Item
+3. **Nano Code** - Your logic to customize Resource
 
-When any record operation is performed via resource (e.g. create/update/delete), the operation is converted to an event. And it goes from event handler chain.
+### Resource
+![](/files/fundamentals/resource.png)
 
-There are 3 kind of **event handlers**
+A **resource** is a data model, Api, and database table.
 
-1. Pre event handlers
-2. Actual event handler
-3. Post event handlers
+When you create a resource, you are creating a data model, a database table, and a RESTful API endpoint. Everything is
+done by just creating a resource.
 
-**Actual event handler** is where the actual operation is performed. (Data stored to database)  
-**Pre event handlers** are executed before the actual event handler.  
-**Post event handlers** are executed after the actual event handler.
+#### Example of resource
 
-You can add your own event handlers to the chain. For doing that, you need to create an extension or Nano code. For more details please go to [extension page](https://apibrew.io/docs/fundamentals/extension) or [Nano code](https://apibrew.io/docs/nano-code/getting-started) page.
+```yaml
+type: resource
+name: Book
+properties:
+  title:
+    type: string
+  name:
+    type: string
+```
+```bash
+apbr apply -f book.yaml
+```
 
-![](/files/docs/fundamentals/the-big-picture/resource-event-handling.png)
+So, by just executing this command, you are creating a data model, a database table, and a RESTful API endpoint, all in once (they are just part of Resource)
 
-With various techniques, **_you can extend the functionality of Api brew._**  
-For example, you can add a **new event handler(Extension)** to the chain and modify functionality of Resource and Api
+### Record
 
----
+A Record is a data. It is an instance of a resource.
+
+When you create a resource, you get an API to manage records.
+
+You can also manage records via **apbr CLI** or **Studio**.
+
+#### Example of record
+
+```yaml
+type: Book
+title: "The Great Gatsby"
+name: "F. Scott Fitzgerald"
+```
+```bash
+apbr create -f book-1.yaml
+```
+
+So, by just executing this command, you are creating a record in the database.
+
+### Nano Code
+
+Nano code is a way to customize the behavior of resources and records.
+
+You can add your own logic to resources and records by using Nano code.
+
+For example, you can add a new event handler to the resource and modify the behavior of the resource.
+
+[More about Nano code](/nano/getting-started)
+
+
