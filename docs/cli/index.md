@@ -23,19 +23,26 @@ Now you need to configure _apbr_ to connect to your **api-brew instance**.
 
 There are two ways to configure _apbr_:
 
-#### Interactive configuration
+### Configuration with configure command
 
-You can configure _apbr_
+#### Configure for cloud
 
 ```bash
-apbr configure
-Address: (your-project.api-brew.io:9443)
-Username: (your username)
-Password: (your password)
-Insecure[false]: (false)
+apbr configure --cloud --project {connection.name} --token &lt;token&gt;
 ```
 
-#### Manually configuring by config file
+#### Configure local instance (on-prem)
+
+```bash
+apbr configure --local --host {host} --port {port} --username {username} --password {password}
+```
+
+Quick example(for default local server):
+```bash
+apbr configure --local --host localhost --port 9009 --username admin --password admin
+```
+
+### Manually configuring by config file
 
 You can create a config file and put it to **~/.apbr/config.yaml**  
 How config files looks like:
