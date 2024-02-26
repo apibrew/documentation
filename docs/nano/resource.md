@@ -100,6 +100,7 @@ Book1.bindList(Book, book1FromBook, book1ToBook);
 - findById
 - list
 - load
+- count
 
 Repository methods are used to operate on a record.
 
