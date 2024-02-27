@@ -1,3 +1,6 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # CLI
 ## Overview
 
@@ -15,6 +18,43 @@ With help of **apbr** you can:
 
 ---
 
+## Installation
+
+## Getting started with _apbr_ (client tool)
+
+_apbr_ is a command line tool which allows you to interact with **Api Brew**. You can use it to create, manage and
+deploy APIs.
+
+### Installation
+
+You can install _apbr_ using the following command:
+
+You can download binary [releases](https://github.com/apibrew/apibrew/releases/latest).
+
+<Tabs>
+    <TabItem value="macos_silicon" label="Macos[Apple Silicon]" default>
+        ```bash
+        wget https://github.com/apibrew/apibrew/releases/download/v1.3.34/apbr-darwin-arm64
+        chmod +x apbr-darwin-arm64
+        sudo mv apbr-darwin-arm64 /usr/local/bin/apbr
+        ```
+    </TabItem>
+    <TabItem value="macos_intel" label="Macos[Intel]" default>
+        ```bash
+        wget https://github.com/apibrew/apibrew/releases/download/v1.3.34/apbr-darwin-amd64
+        chmod +x apbr-darwin-amd64
+        sudo mv apbr-darwin-amd64 /usr/local/bin/apbr
+        ```
+    </TabItem>
+    <TabItem value="linux_amd_64" label="Linux[x86_64]" default>
+        ```bash
+        wget https://github.com/apibrew/apibrew/releases/download/v1.3.34/apbr-linux-amd64
+        chmod +x apbr-linux-amd64
+        sudo mv apbr-linux-amd64 /usr/local/bin/apbr
+        ```
+    </TabItem>
+</Tabs>
+
 ## Configure
 
 We are assuming you already have an **api-brew instance** running. If you don't have one, you can register in [our cloud](https://apibrew.io/docs/docs/cloud/getting-started) and get a free instance or you can install it [locally](https://apibrew.io/docs/on-prem/getting-started).
@@ -28,7 +68,7 @@ There are two ways to configure _apbr_:
 #### Configure for cloud
 
 ```bash
-apbr configure --cloud --project {connection.name} --token &lt;token&gt;
+apbr configure --cloud --project {connection.name} --token <token>
 ```
 
 #### Configure local instance (on-prem)

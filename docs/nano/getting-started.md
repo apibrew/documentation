@@ -31,6 +31,8 @@ Book.beforeCreate(book => {
   if (!book.description) {
       book.description = book.name + ' description';
   }
+  
+  return book
 });
 ```
 
