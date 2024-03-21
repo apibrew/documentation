@@ -32,6 +32,22 @@ Resource object has set of operations
 - afterGet
 - afterList
 
+Method template: before|after + Create|Update|Delete|Get|List
+
+Syntax:
+```js
+/**
+ * @param {function} fn
+ * @returns {void}
+ * 
+ * @callback fn
+ * @param {object} record (record is a resource record)
+ * @param {object} event (event is a resource action event)
+ * @returns {object} (return is optional, if you return a value, it will be used as a updated record)
+ */
+<Resource>.<action>(<function>);
+```
+
 Each handler method accepts only one parameter, which is a function. And this function is executed when given action is executed in given time
 
 **Example:**
@@ -45,6 +61,11 @@ Book.beforeUpdate(book => {
 
     // return is optional, if you return a value, it will be used as a new value
     return book;
+});
+
+Book.afterCreate((book, event) => {
+    // event
+    console.log(event);
 });
 
 // all handler methods have same signature
@@ -92,15 +113,178 @@ Book1.bindList(Book, book1FromBook, book1ToBook);
 
 #### Repository methods
 
-- create
-- update
-- apply
-- delete
-- get
-- findById
-- list
-- load
-- count
+#### create
+```js
+/**
+ * @param {object} record
+ * @returns {object}
+ */
+<Resource>.create(<object>);
+
+// example
+const book = Book.create({
+    name: 'book',
+    description: 'book description'
+});
+```
+
+#### update
+```js
+/**
+ * @param {object} record
+ * @returns {object}
+ */
+<Resource>.update(<object>);
+    
+// example
+const book = Book.update({
+    id: 'my-book-id',
+    name: 'book',
+    description: 'book description'
+});
+```
+
+#### apply
+```js
+/**
+ * @param {object} record
+ * @returns {object}
+ */
+
+<Resource>.apply(<object>);
+    
+// example
+const book = Book.apply({
+    id: 'my-book-id', // optional, if not provided, unique property will be used to locate record
+    name: 'book',
+    description: 'book description'
+});
+```
+
+#### delete
+```js
+/**
+ * @param {object} record
+ * @returns {object}
+ */
+<Resource>.delete(<object>);
+    
+// example
+const book = Book.delete({
+    id: 'my-book-id'
+});
+```
+
+#### get
+```js
+/**
+ * @param {string} id
+ * @returns {object}
+ */
+
+<Resource>.get(<string>);
+    
+// example
+const book = Book.get('my-book-id');
+```
+
+#### findById
+```js
+/**
+ * @param {string} id
+ * @returns {object}
+ */
+
+<Resource>.findById(<string>);
+    
+// example
+const book = Book.findById('my-book-id');
+```
+
+#### list
+```js
+/**
+ * @param {object} params (optional)
+ * @returns {content: object[], total: number} (content is a list of records, total is a total number of records)
+ * @param {[key: string]: string} params.filters (optional)
+ * @param {number} params.limit (optional)
+ * @param {number} params.offset (optional)
+ * @param {string[]} params.resolveReferences (optional)
+ * @param {{property: string, direction: string}[]} params.sorting (optional)
+ * @param {items: {name: string, algorithm: "SUM" | "COUNT" | "MIN" | "MAX" | "AVG", property: string}[], grouping: {property: string}[]} params.aggregation (optional)
+ * @param {see BooleanExpression on https://docs.apibrew.io/fundamentals/schema} params.query (optional)
+ */
+
+<Resource>.list(<object>, <params>);
+    
+// example
+const books = Book.list({
+    filter: {
+        name: 'book'
+    },
+    limit: 1000,
+    offset: 0,
+});
+const books2 = Book.list({
+    query: {
+        equal: {
+            left: {
+                property: 'name'
+            },
+            right: {
+                value: 'book'
+            }
+        }
+    },
+    sorting: [
+        {
+            property: 'name',
+            direction: 'ASC'
+        }
+    ],    
+    limit: 1000,
+    offset: 0,
+});
+```
+
+#### load
+```js
+/**
+ * @param {object} record
+ * @returns {object}
+ */
+
+<Resource>.load(<object>);
+    
+// example
+const book = Book.load({
+    id: 'my-book-id'
+});
+
+// load also can be used to load referenced records
+
+Book.beforeCreate(book1 => {
+    const existing = Book.load(book1); // reload book1
+    
+    const author = Author.load(book1.author); // load author referenced by book1
+});
+
+```
+
+#### count
+```js
+/**
+ * @param {[key: string]: string} filters (optional)
+ * @returns {number}
+ */
+
+<Resource>.count(<filters>);
+    
+// example
+const count = Book.count({
+    name: 'book'
+});
+```
 
 Repository methods are used to operate on a record.
 
@@ -149,4 +333,24 @@ Book1.afterCreate(book1 => {
   // it is useful when you want to load some referenced record to get other properties of it
   const book = Book.load(book);
 });
+```
+
+#### Resource modifier functions
+
+With help of resource modifier functions, you can modify resource properties. This modification will not be stored in database, it will be only visible changes.
+
+The purpose of this function is to calculate dynamic properties, or to load referenced records.
+
+Example:
+```js
+const Person = resource('Person');
+const Education = resource('Education');
+
+Person.modifier(person => {
+    person.educations = Education.list({
+        filters: {
+            person: person.id
+        }
+    }).content;
+})
 ```
