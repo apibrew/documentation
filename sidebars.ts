@@ -68,6 +68,7 @@ const sidebars: SidebarsConfig = {
                 'nano/resource',
                 'nano/lambda',
                 'nano/http',
+                'nano/mail',
                 'nano/low-level',
             ],
         },
