@@ -90,18 +90,3 @@ system/*:beforeCreate
 Book:on(100):create
 Book:on(40)
 ```
-
-## Send Mail
-
-You can send mail with help of `mail` function.
-
-### Syntax
-
-```javascript
-/**
- * Send mail
- * @param {string} to - Receiver email address
- * @param {string} subject - Mail subject
- * @param {string} body - Mail body
- * @return {void} - No return value.
- */
