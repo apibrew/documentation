@@ -82,6 +82,11 @@ const sidebars: SidebarsConfig = {
             label: 'CLI [apbr]',
             id: 'cli/index',
         },
+        {
+            type: 'doc',
+            label: 'Reference',
+            id: 'reference/index',
+        },
         // {
         //     type: 'category',
         //     label: 'Deployment',
