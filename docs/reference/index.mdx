@@ -5,47 +5,37 @@ description: ApiBrew Reference
 ---
 
 
-import * as Create from './api/create.md'
-import * as List from './api/list.md'
-import * as Get from './api/get.md'
-import * as Update from './api/update.md'
-import * as Apply from './api/apply.md'
-import * as Delete from './api/delete.md'
-import * as Search from './api/search.md'
-import * as Load from './api/load.md'
-import * as Resource from './api/resource.md'
-import * as Watch from './api/watch.md'
+
+import Create from './api/create.md'
+import List from './api/list.md'
+import Get from './api/get.md'
+import Update from './api/update.md'
+import Apply from './api/apply.md'
+import Delete from './api/delete.md'
+import Search from './api/search.md'
+import Load from './api/load.md'
+import Resource from './api/resource.md'
+import Watch from './api/watch.md'
 
 import React from 'react'
 
-export default function () {
-    let pages = [
-        Create,
-        List,
-        Get,
-        Update,
-        Apply,
-        Delete,
-        Search,
-        Load,
-        Resource,
-        Watch]
-
-    return <>
-        {pages.map((module, index) => {
-            const Page = module.default
-
-            return <React.Fragment key={index}>
-                <details open={true}>
-                    <summary>{module.metadata.title}</summary>
-                    <div style={{
-                        border: '1px solid #eaecef',
-                        padding: '20px',
-                    }}>
-                        <Page key={index}/>
-                    </div>
-                </details>
-            </React.Fragment>
-        })}
-    </>
-}
+## Api / Create
+<Create/>
+## Api / List
+<List/>
+## Api / Get
+<Get/>
+## Api / Update
+<Update/>
+## Api / Apply
+<Apply/>
+## Api / Delete
+<Delete/>
+## Api / Search
+<Search/>
+## Api / Load
+<Load/>
+## Api / Resource
+<Resource/>
+## Api / Watch
+<Watch/>
