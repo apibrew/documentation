@@ -3,29 +3,49 @@ title: Reference
 sidebar_position: 3
 description: abc axxxccddeasd
 payloadMatter: d32d32d3d23
-
 ---
 
+
+import * as Create from './api/create.md'
+import * as List from './api/list.md'
+import * as Get from './api/get.md'
+import * as Update from './api/update.md'
+import * as Apply from './api/apply.md'
+import * as Delete from './api/delete.md'
 import * as Search from './api/search.md'
+import * as Load from './api/load.md'
+import * as Resource from './api/resource.md'
+import * as Watch from './api/watch.md'
+
 import React from 'react'
 
 export default function () {
-    const pages = [Search]
-
-    console.log(pages)
+    let pages = [
+        Create,
+        List,
+        Get,
+        Update,
+        Apply,
+        Delete,
+        Search,
+        Load,
+        Resource,
+        Watch]
 
     return <>
         {pages.map((module, index) => {
             const Page = module.default
 
             return <React.Fragment key={index}>
-                <h2>{module.metadata.title}</h2>
-                <div style={{
-                    border: '1px solid #eaecef',
-                    padding: '20px',
-                }}>
-                    <Page key={index}/>
-                </div>
+                <details open={true}>
+                    <summary>{module.metadata.title}</summary>
+                    <div style={{
+                        border: '1px solid #eaecef',
+                        padding: '20px',
+                    }}>
+                        <Page key={index}/>
+                    </div>
+                </details>
             </React.Fragment>
         })}
     </>

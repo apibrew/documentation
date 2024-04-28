@@ -1,6 +1,6 @@
 ---
 title: Api / Search
-description: Search for a specific item in the database.
+description: Search for a specific item.
 ---
 
 ### Overview
@@ -22,17 +22,36 @@ curl -X 'POST' \
   "offset": <offset>,
   "query": {<query>},
   "resolveReferences": [<resolveReferences>],
+  "sorting": [<sortingItem>],
+  "aggregation": {aggregationConfig}
 }'
+
+Response:
+{
+  "content": [<item>],
+  "total": <total>
+}
 ```
+
+**_Request Body:_**
 
 - **limit**: The number of items to return. Default is 10.
 - **offset**: The number of items to skip. Default is 0.
 - **filters**: The filters to apply. Example: `{"name": "John"}`.
 - **query**: The query to search for.
 - **resolveReferences**: The references to resolve. Example: `["$.author", "$.publisher"]`.
+- **sorting**: The sorting to apply. Example: `[{"property": "name", "direction": "asc"}]`.
+- **aggregation**: The aggregation to apply.
 
-**_Note_**: All fields are optional.
-**_Note_**: filters and query are mutually exclusive. If both are provided, only query will be used.
+**_Response body:_**
+
+- **content**: The items.
+- **total**: The total number of items.
+
+- **_Note_**: All fields are optional.
+- **_Note_**: filters and query are mutually exclusive. If both are provided, only query will be used.
+- **_Note_**: Response items will contain "type" property, where it is resource type (e.g. Book, Author, etc.). This
+  field can be omitted.
 
 ### Filters
 
@@ -430,7 +449,7 @@ Resolve References is in `[string]` format. Where string is the path to the refe
 
 This will resolve the author and publisher references in the item.
 
-### Response without resolveReferences
+#### Response without resolveReferences
 
 ```json
 {
@@ -451,7 +470,7 @@ This will resolve the author and publisher references in the item.
 }
 ```
 
-### Response with resolveReferences
+#### Response with resolveReferences
 
 ```json
 {
@@ -471,5 +490,160 @@ This will resolve the author and publisher references in the item.
     }
   ],
   "total": 1
+}
+```
+
+### Sorting
+
+You can apply sorting on the items. Sorting is in `[sortingItem]` format. Where sortingItem is an object with following
+fields:
+
+```json
+{
+  "property": <property
+  path>,
+  "direction": "<[asc|desc]>"
+}
+```
+
+#### Examples
+
+```json
+{
+  "sorting": [
+    {
+      "property": "name",
+      "direction": "asc"
+    }
+  ]
+}
+```
+
+Sort items by name in ascending order.
+
+```json
+{
+  "sorting": [
+    {
+      "property": "name",
+      "direction": "asc"
+    },
+    {
+      "property": "age",
+      "direction": "desc"
+    }
+  ]
+}
+```
+
+Sort items by name in ascending order and age in descending order.
+
+You can also use property path to sort records by property inside struct (see struct type)
+
+```json
+{
+  "sorting": [
+    {
+      "property": "details.name",
+      "direction": "asc"
+    }
+  ]
+}
+```
+
+Sorting items by their creation date
+
+```json
+{
+  "sorting": [
+    {
+      "property": "auditData.createdOn",
+      "direction": "asc"
+    }
+  ]
+}
+```
+
+This will sort items by their creation date in ascending order.
+
+Similarly, Sorting items by their update date
+
+```json
+{
+  "sorting": [
+    {
+      "property": "auditData.updatedOn",
+      "direction": "desc"
+    }
+  ]
+}
+```
+
+This will sort items by their update date in descending order.
+
+### Aggregation
+
+Aggregation is used to aggregate the items. Aggregation is in object format.
+
+Aggregation object can have following fields:
+
+```json
+{
+  "aggregation": {
+    "items": [
+      {
+        "name": <name>,
+        "algorithm": "<[count|sum|avg|max|min]>",
+        "property": <property-name>
+      }
+    ],
+    "grouping": [
+      {
+        "property": <property
+        name>
+      }
+    ]
+  }
+}
+```
+
+#### Example
+
+```json
+{
+  "aggregation": {
+    "items": [
+      {
+        "name": "total",
+        "algorithm": "count",
+        "property": "name"
+      }
+    ],
+    "grouping": [
+      {
+        "property": "age"
+      }
+    ]
+  }
+}
+```
+
+This will return the count of items grouped by age.
+
+Result:
+
+```json
+{
+  "content": [
+    {
+      "total": 2,
+      "age": 25
+    },
+    {
+      "total": 1,
+      "age": 26
+    }
+  ],
+  "total": 2
 }
 ```
